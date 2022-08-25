@@ -4,7 +4,7 @@ import ancientsData from './data/ancients.js';
 import stages from './data/stages.js';
 import cards from './data/mythicCards/index.js';
 
-
+let ancientActiveData = {};
 document.addEventListener('DOMContentLoaded', main);
 
 function main() {
@@ -56,6 +56,8 @@ function action() {
     //     });
     // }
 
+
+
     const $ancientsItem = document.querySelectorAll('.ancients__item');
     activateElementOnClick($ancientsItem, 'ancients__item_active');
 
@@ -73,7 +75,18 @@ function shake() {
         const difficult = document.querySelector('.difficulties__button_active').value;
 
         console.log(difficult);
-        console.log(cards);
+        console.log(cards['brownCards']);
+        console.log(ancientActiveData);
+
+        let greenCardsNeedCount = 0;
+        let brownCardsNeedCount = 0;
+        let blueCardsNeedCount = 0;
+
+        for (let key in ancientActiveData) {
+            greenCardsNeedCount += ancientActiveData[key]['greenCards'];
+            brownCardsNeedCount += ancientActiveData[key]['brownCards'];
+            blueCardsNeedCount += ancientActiveData[key]['blueCards'];
+        }
 
         let greenCardsNeed = {};
         let brownCardsNeed = {};
@@ -112,8 +125,6 @@ function activateElementOnClick(collection, classForAdd) {
 
 function fillStages(card) {
     const ancientNeed = card.getAttribute('data-ancient');
-
-    let ancientActiveData = {};
 
     ancientsData.forEach (function(ancient) {
         if (ancient['id'] === ancientNeed) {
@@ -200,10 +211,11 @@ function addStagesDiv() {
 
         const stageContent = document.createElement('div');
         stageContent.classList.add('stages__content');
+        stageContent.classList.add(`stages__${obj['id']}`);
 
         const stageItem = document.createElement('div');
         stageItem.classList.add('stages__item');
-        stageItem.classList.add(`stages__${obj['id']}`);
+        
         stageItem.textContent = obj['name'];
 
         const colorCards = document.createElement('div');
