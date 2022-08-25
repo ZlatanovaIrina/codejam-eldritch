@@ -11,6 +11,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
+    flex-direction: column;
     padding-top: 20px;
 
 }
@@ -35,6 +36,11 @@
     border-radius: 10px;
 }
 
+.ancients__item_active {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px rgb(227 211 200);
+}
+
 .ancients__item:hover {
     transform: scale(1.02);
 }
@@ -42,6 +48,8 @@
 .difficulties {
     display: flex;
     flex-direction: column;
+    padding-right: 30px;
+    padding-right: 30px;
 }
 
 .difficulties__wrapper {
@@ -65,9 +73,109 @@
     transition: all 0.2s;
     font-size: 20px;
     color: #5d5d4e;
+    transition: all 0.5s;
+}
+
+.difficulties__button_active {
+    transform: scale(1.04);
+    color: #ba1c16;
 }
 
 .difficulties__button:hover {
     background: linear-gradient(177deg, #af987b, #e3d3c8);
     box-shadow: 0 0 10px rgb(227 211 200);
+}
+
+
+.shake-button {
+    width: 200px;
+    height: 40px;
+    background: linear-gradient(177deg, #e3d3c8, #af987b);
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+    margin: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 20px;
+    color: #5d5d4e;
+    transition: all 0.5s;
+}
+
+.shake-button_active {
+    transform: scale(1.04);
+    color: #ba1c16;
+}
+
+.shake-button_disabled {
+    cursor: not-allowed;
+    border: 1px solid #999999;
+    background: #cccccc;
+    color: #a5a5a5;
+}
+
+
+.shake-button:hover {
+    background: linear-gradient(177deg, #af987b, #e3d3c8);
+    box-shadow: 0 0 10px rgb(227 211 200);
+}
+
+.shake-button_disabled:hover {
+    cursor: not-allowed;
+    border: 1px solid #999999;
+    background: #cccccc;
+    color: #a5a5a5;
+}
+
+.stages {
+    width: 236px;
+    min-height: 245px;
+    padding-top: 50px;
+    padding-right: 10px;
+    padding-bottom: 50px;
+    padding-left: 10px;
+    background: linear-gradient(177deg, #e3d3c8, #af987b);
+    box-shadow: 0 0 10px rgb(227 211 200);
+    border-radius: 10px;
+}
+
+.stages__item {
+    color: #5d5d4e;
+    padding: 10px;
+    
+}
+
+.stages__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stages__color-cards {
+    display: flex;
+}
+
+.color-cards__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 37px;
+    height: 30px;
+    margin-right: 4px;
+    display: inline-flex;
+    border: 2px solid #e1d5c6;
+    color: #dfdbd1;
+   
+}
+
+.color-cards__first {
+    background: #375b1b;
+}
+
+.color-cards__second {
+    background: #a67d00;
+}
+
+.color-cards__third {
+    background: #4d58a1;
 }
