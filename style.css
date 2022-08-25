@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    background: url('assets/home.png');
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    padding-top: 20px;
+
+}
+
+.wrapper__header {
+    height: 345px;
+    display: flex;
+}
+
+.ancients {
+
+    padding-right: 30px;
+}
+
+.ancients__item {
+    width: 250px;
+    height: 350px;
+    display: inline-flex;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+    border-radius: 10px;
+}
+
+.ancients__item:hover {
+    transform: scale(1.02);
+}
+
+.difficulties {
+    display: flex;
+    flex-direction: column;
+}
+
+.difficulties__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.difficulties__button {
+    width: 200px;
+    height: 40px;
+    background: linear-gradient(177deg, #e3d3c8, #af987b);
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+    margin: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 20px;
+    color: #5d5d4e;
+}
+
+.difficulties__button:hover {
+    background: linear-gradient(177deg, #af987b, #e3d3c8);
+    box-shadow: 0 0 10px rgb(227 211 200);
+}
