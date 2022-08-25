@@ -12,6 +12,16 @@ function main() {
 }
 
 function action() {
+    const $ancientsItem = document.querySelectorAll('.ancients__item');
+
+    $ancientsItem.forEach(el => clickListener(el));
+
+    function clickListener(el) {
+        el.addEventListener('click', function(event) {
+            const item = event.target;
+            console.log(item);
+        });
+    }
     
 }
 
@@ -26,6 +36,7 @@ function createAncientsDiv() {
         ancientsItem.style.background = `url(${ancients[key]}) no-repeat`;
         ancientsItem.style.backgroundSize = `100%`;
         ancientsItem.classList.add('ancients__item');
+        ancientsItem.setAttribute('data-ancient', key);
         
         ancientsDiv.appendChild(ancientsItem);
     }
