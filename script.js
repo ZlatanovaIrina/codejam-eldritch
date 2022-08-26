@@ -163,11 +163,13 @@ function cardStackClickListener() {
 
 
     cardItem.forEach(function(item) {
-        item.addEventListener('click', function (event) {
+        item.addEventListener('click', function () {
             if (!this.classList.contains('moved')) {
-                console.log(event.target);
+                
                 const stack = document.querySelector('.cards-by-stages');
-                const lastInStack = stack.lastChild.lastChild;
+                const lastInStack = stack.lastChild.firstChild;
+
+                console.log(lastInStack);
 
                 const $showedCardContainer = document.querySelector('.showed-card-container');
 
@@ -194,7 +196,6 @@ function cardStackClickListener() {
 
                 stack.lastChild.removeChild(lastInStack);
 
-                console.log(lastInStack);
             }
         })
     });
