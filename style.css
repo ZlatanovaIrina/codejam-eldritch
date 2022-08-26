@@ -3,26 +3,38 @@
     padding: 0;
     box-sizing: border-box;
 }
-.wrapper {
+
+body {
     width: 100vw;
     height: 100vh;
     background: url('assets/home.png');
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
     padding-top: 20px;
 
 }
 
 .wrapper__header {
-    height: 345px;
+    width: 66%;
     display: flex;
+    padding-right: 20px;
+}
+
+.wrapper__bottom {
+    width: 30%;
+    display: flex;
+    padding-left: 20px;
 }
 
 .ancients {
-
+    min-width: 570px;
     padding-right: 30px;
 }
 
@@ -45,6 +57,13 @@
     transform: scale(1.02);
 }
 
+.difficults-and-stages {
+    display: flex;
+    justify-content: space-between;
+    height: 300px;
+    padding-top: 30px;
+}
+
 .difficulties {
     display: flex;
     flex-direction: column;
@@ -57,8 +76,8 @@
     flex-direction: column;
     justify-content: space-between;
 
-    padding-top: 50px;
-    padding-bottom: 50px;
+    
+
 }
 
 .difficulties__button {
@@ -129,13 +148,13 @@
 
 .stages {
     width: 236px;
-    min-height: 245px;
-    padding-top: 50px;
+    max-height: 150px;
+    padding-top: 15px;
     padding-right: 10px;
-    padding-bottom: 50px;
+    
     padding-left: 10px;
     background: linear-gradient(177deg, #e3d3c8, #af987b);
-    box-shadow: 0 0 10px rgb(227 211 200);
+    /* box-shadow: 0 0 10px rgb(227 211 200); */
     border-radius: 10px;
 }
 
@@ -178,4 +197,37 @@
 
 .color-cards__third {
     background: #4d58a1;
+}
+
+.cards-by-stages__stages {
+    position: relative;
+}
+
+.secondStage {
+    margin-left: 25px;
+}
+
+.firstStage {
+    margin-left: 50px;
+}
+
+.cards-by-stages {
+    min-width: 200px;
+}
+
+.cards-by-stages__item {
+    width: 130px;
+    height: 190px;
+    position: absolute;
+    top: 30px;
+    display: inline-flex;
+
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgb(227 211 200 / 20%);
+    cursor: pointer;
+
+}
+
+.showed-card-container {
+    position: relative;
 }

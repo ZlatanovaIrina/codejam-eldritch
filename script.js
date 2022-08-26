@@ -18,45 +18,6 @@ function main() {
 }
 
 function action() {
-    // const $ancientsItem = document.querySelectorAll('.ancients__item');
-
-    // $ancientsItem.forEach(item => clickListener(item));
-
-    // function clickListener(el) {
-    //     el.addEventListener('click', function(event) {
-
-    //         $ancientsItem.forEach(function(item) {
-    //             item.classList.remove('ancients__item_active');
-    //         });
-
-    //         const card = event.target;
-    //         card.classList.add('ancients__item_active');
-            
-    //         fillStages(card);
-
-    //     });
-    // }
-
-    // const $difficultiesButton = document.querySelectorAll('.difficulties__button');
-
-    // $difficultiesButton.forEach(item => clickListener(item));
-
-    // function clickListener(el) {
-    //     el.addEventListener('click', function(event) {
-
-    //         $difficultiesButton.forEach(function(item) {
-    //             item.classList.remove('difficulties__button_active');
-    //         });
-
-    //         const card = event.target;
-    //         card.classList.add('difficulties__button_active');
-            
-    //         fillStages(card);
-
-    //     });
-    // }
-
-
 
     const $ancientsItem = document.querySelectorAll('.ancients__item');
     activateElementOnClick($ancientsItem, 'ancients__item_active');
@@ -67,20 +28,24 @@ function action() {
     const shakeButton = document.querySelector('.shake-button');
     shakeButton.addEventListener('click', shake);
 
-    
 }
 
 function shake() {
+    let cardsCopyShuffled = structuredClone(cards);
+    for (let key in cardsCopyShuffled) {
+        shuffle (cardsCopyShuffled[key]);
+    }
+
     if (!this.classList.contains('shake-button_disabled')) {
         const difficult = document.querySelector('.difficulties__button_active').value;
-
-        console.log(difficult);
-        console.log(cards['brownCards']);
-        console.log(ancientActiveData);
 
         let greenCardsNeedCount = 0;
         let brownCardsNeedCount = 0;
         let blueCardsNeedCount = 0;
+
+        let greenCardsNeed = [];
+        let brownCardsNeed = [];
+        let blueCardsNeed = [];
 
         for (let key in ancientActiveData) {
             greenCardsNeedCount += ancientActiveData[key]['greenCards'];
@@ -88,12 +53,179 @@ function shake() {
             blueCardsNeedCount += ancientActiveData[key]['blueCards'];
         }
 
-        let greenCardsNeed = {};
-        let brownCardsNeed = {};
-        let blueCardsNeed = {};
+        let cardsCopyColor = {};
+
+        switch (difficult) {
+            case 'easy':
+                needCardsByDifficult(cardsCopyShuffled, cardsCopyColor, 'hard');
+
+                choseCards(cardsCopyColor['greenCards'], greenCardsNeedCount, greenCardsNeed);
+                choseCards(cardsCopyColor['brownCards'], brownCardsNeedCount, brownCardsNeed);
+                choseCards(cardsCopyColor['blueCards'], blueCardsNeedCount, blueCardsNeed);
+
+                break;
+            case 'normal':
+                cardsCopyColor = structuredClone(cardsCopyShuffled);
+
+                choseCards(cardsCopyColor['greenCards'], greenCardsNeedCount, greenCardsNeed);
+                choseCards(cardsCopyColor['brownCards'], brownCardsNeedCount, brownCardsNeed);
+                choseCards(cardsCopyColor['blueCards'], blueCardsNeedCount, blueCardsNeed);
+            break;
+            case 'hard':
+                needCardsByDifficult(cardsCopyShuffled, cardsCopyColor, 'easy');
+
+                choseCards(cardsCopyColor['greenCards'], greenCardsNeedCount, greenCardsNeed);
+                choseCards(cardsCopyColor['brownCards'], brownCardsNeedCount, brownCardsNeed);
+                choseCards(cardsCopyColor['blueCards'], blueCardsNeedCount, blueCardsNeed);
+            break;
+        
+            default:
+                break;
+        }
+
+        let cardsNeed = {};
+        cardsNeed['greenCards'] = greenCardsNeed;
+        cardsNeed['brownCards'] = brownCardsNeed;
+        cardsNeed['blueCards'] = blueCardsNeed;
+
+        sortСardsByStages(cardsNeed, ancientActiveData);
+
+    }
+}
+
+function sortСardsByStages(cards, ancientActiveData) {
+    
+    const stackOfCardsResult = {};
+    stackOfCardsResult['thirdStage'] = [];
+    stackOfCardsResult['secondStage'] = [];
+    stackOfCardsResult['firstStage'] = [];
+
+    for (let key in ancientActiveData) { 
+        for (let key_2 in ancientActiveData[key]) {          
+            for (let i = 0; i < ancientActiveData[key][key_2]; i++) {
+                stackOfCardsResult[key].push(cards[key_2][i]);
+            }
+        }
+    }
+    
+    const stackOfCardsResultShuffled = structuredClone(stackOfCardsResult);
+    for (let key in stackOfCardsResultShuffled) {
+        shuffle(stackOfCardsResultShuffled[key]);
+    }
+
+    layOutTheСards(stackOfCardsResultShuffled);
+}
+
+function layOutTheСards(cardsForLayOut) {
+    console.log(cardsForLayOut);
+    const wrapperBottom = document.querySelector('.wrapper__bottom');
+    wrapperBottom.innerHTML = '';
+
+    const stagesDiv = document.createElement('div');
+    stagesDiv.classList.add('cards-by-stages');
+
+    wrapperBottom.appendChild(stagesDiv);
+
+    for (let key in cardsForLayOut) {
+
+        const stageStackDiv = document.createElement('div');
+        stageStackDiv.classList.add(key);
+        stageStackDiv.classList.add('cards-by-stages__stages');
+        stageStackDiv.setAttribute('data-stage', key);
+
+        cardsForLayOut[key].forEach(function(item){
+            const card = document.createElement('span');
+            card.classList.add('cards-by-stages__item');
+            card.classList.add(`${key}__item`);
+            card.setAttribute('data-card_color', `${item['color']}Cards`);
+            card.setAttribute('data-card_id', item['id']);
+            card.setAttribute('data-background_url', item['cardFace']);
+            // card.style.background = `url(${item['cardFace']}) no-repeat center`;
+            card.style.background = `url(assets/mythicCardBackground.png) no-repeat center`;
+            card.style.backgroundSize = `100%`;
+            stageStackDiv.appendChild(card);
+        });
+
+        stagesDiv.appendChild(stageStackDiv);
+    }
+
+    cardStackClickListener();
+}
+
+function cardStackClickListener() {
+    const cardItem = document.querySelectorAll('.cards-by-stages__item');
+    const $wrapperBottom = document.querySelector('.wrapper__bottom');
+
+    const showedCardContainer = document.createElement('div');
+    showedCardContainer.classList.add('showed-card-container');
+
+    $wrapperBottom.appendChild(showedCardContainer);
+
+
+    cardItem.forEach(function(item) {
+        item.addEventListener('click', function (event) {
+            if (!this.classList.contains('moved')) {
+                console.log(event.target);
+                const stack = document.querySelector('.cards-by-stages');
+                const lastInStack = stack.lastChild.lastChild;
+
+                const $showedCardContainer = document.querySelector('.showed-card-container');
+
+                const lastInStackBack = lastInStack.getAttribute('data-background_url');
+                lastInStack.style.background = `url(${lastInStackBack}) no-repeat`;
+                lastInStack.style.backgroundSize = `100%`;
+                lastInStack.classList.add('moved');
+
+                $showedCardContainer.appendChild(lastInStack);
+
+                const stage = stack.lastChild.getAttribute('data-stage');
+                const cardColor = lastInStack.getAttribute('data-card_color');
+
+                const $stageColorCardsItem = document.querySelector(`.color-cards__item[data-stage='${stage}'][data-order='${cardColor}']`);
+                
+                let count = +$stageColorCardsItem.textContent;
+
+                $stageColorCardsItem.textContent = count - 1;
+
+
+                if (stack.lastChild.childNodes.length == 0) {
+                    stack.removeChild(stack.lastChild);
+                }
+
+                stack.lastChild.removeChild(lastInStack);
+
+                console.log(lastInStack);
+            }
+        })
+    });
+}
+
+function needCardsByDifficult(cardsCopyShuffled,cardsCopyColor, noNeedDifficult) {
+    for (let key in cardsCopyShuffled) {
+        cardsCopyColor[key] = [];
+        cardsCopyShuffled[key].forEach(function(item) {
+            if (item['difficulty'] !== noNeedDifficult) {
+                cardsCopyColor[key].push(item);
+            }
+        });
+    }
+}
+
+function choseCards(cardsCopyColor, cardsNeedCount, cardsNeed) {
+    let i = cardsNeedCount - 1;
+    while (i >= 0) {
+        cardsNeed.push(cardsCopyColor[i]);
+        i--;
     }
 
 }
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
 function activateElementOnClick(collection, classForAdd) {
 
@@ -171,10 +303,15 @@ function createAncientsDiv() {
 function addDifficultiesButtons() {
     const $wrapper = document.querySelector('.wrapper__header');
 
+    const difficultAndStages = document.createElement('div');
+    difficultAndStages.classList.add('difficults-and-stages')
+
+    $wrapper.appendChild(difficultAndStages);
+
     const difficultiesWrapper = document.createElement('div');
     difficultiesWrapper.classList.add('difficulties__wrapper');
 
-    $wrapper.appendChild(difficultiesWrapper);
+    difficultAndStages.appendChild(difficultiesWrapper);
 
     const difficultiesDiv = document.createElement('div');
     difficultiesDiv.classList.add('difficulties');
@@ -202,7 +339,7 @@ function addDifficultiesButtons() {
 }
 
 function addStagesDiv() {
-    const $wrapper = document.querySelector('.wrapper__header');
+    const $difficultAndStages = document.querySelector('.difficults-and-stages');
 
     const stagesDiv = document.createElement('div');
     stagesDiv.classList.add('stages');
@@ -253,5 +390,5 @@ function addStagesDiv() {
         stagesDiv.appendChild(stageContent);
     })
 
-    $wrapper.appendChild(stagesDiv);
+    $difficultAndStages.appendChild(stagesDiv);
 }
