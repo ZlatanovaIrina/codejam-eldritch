@@ -6,23 +6,26 @@
 
 body {
     width: 100vw;
-    height: 100vh;
+    min-width: 1600px;
+    min-height: 100vh;
     background: url('assets/home.png');
     background-position: 50%;
     background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .wrapper {
     max-width: 1600px;
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
-    padding-top: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgb(227 211 200 / 20%);
+    border-radius: 10px;
 
 }
 
 .wrapper__header {
-    width: 66%;
+    width: 50%;
+    min-width: 1010px;
     display: flex;
     padding-right: 20px;
 }
@@ -34,15 +37,15 @@ body {
 }
 
 .ancients {
-    min-width: 570px;
+    min-width: 540px;
     padding-right: 30px;
 }
 
 .ancients__item {
-    width: 250px;
-    height: 350px;
+    width: 220px;
+    height: 290px;
     display: inline-flex;
-    margin: 10px;
+    margin: 7px;
     cursor: pointer;
     transition: all 0.5s;
     border-radius: 10px;
@@ -212,20 +215,24 @@ body {
 }
 
 .cards-by-stages {
-    min-width: 200px;
+    min-width: 270px;
 }
 
 .cards-by-stages__item {
-    width: 130px;
-    height: 190px;
+    width: 190px;
+    height: 250px;
     position: absolute;
     top: 30px;
     display: inline-flex;
 
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgb(227 211 200 / 20%);
+    border-radius: 15px;
+    
     cursor: pointer;
 
+}
+
+.cards-by-stages__item:first-of-type {
+    box-shadow: 0 0 10px rgb(227 211 200 / 20%);
 }
 
 .showed-card-container {
